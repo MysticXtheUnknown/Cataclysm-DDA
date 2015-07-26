@@ -6044,6 +6044,10 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
     for( auto &pt : closed ) {
+        if( m.move_cost( pt ) == 0 ) {
+            continue;
+        }
+
         const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
         nc_color col = c_red;
         if( force < 10 ) {
@@ -12823,7 +12827,7 @@ void game::vertical_move(int movez, bool force)
                 add_msg(m_info, _("You are already underwater!"));
                 return;
             }
-            if (u.worn_with_flag("FLOATATION")) {
+            if (u.worn_with_flag("FLOTATION")) {
                 add_msg(m_info, _("You can't dive while wearing a flotation device."));
                 return;
             }
